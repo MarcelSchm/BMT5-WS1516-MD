@@ -1,15 +1,6 @@
-// This program shown how to control arduino from PC Via Bluetooth
-// Connect ...
-// arduino>>bluetooth
-// D11   >>>  Rx
-// D10   >>>  Tx
-//Written By Mohannad Rawashdeh
-//for http://www.genotronex.com/
+//einfaches Bluetooth programm, dass über Serial 1 oder 0 einliest und danach LED13 ein oder ausschaltet
 
-#include <SoftwareSerial.h>// import the serial library
-
-//SoftwareSerial Genotronex(10, 11); // RX, TX
-int ledpin=13; // led on D13 will show blink on / off
+#define ledpin 13 // led on D13 will show blink on / off
 int BluetoothData; // the data given from Computer
 
 void setup() {

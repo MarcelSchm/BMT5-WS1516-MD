@@ -7,7 +7,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   Serial1.begin(9600);
-  Serial.println("Bluetooth On please press 1 or 0 blink LED ..");
+  Serial1.println("Bluetooth On please press 1 or 0 blink LED ..");
   pinMode(ledpin,OUTPUT);
 }
 

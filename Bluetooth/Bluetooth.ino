@@ -17,11 +17,11 @@ void loop() {
 BluetoothData=Serial1.read();
    if(BluetoothData=='1'){   // if number 1 pressed ....
    digitalWrite(ledpin,HIGH);
-   Serial.println("LED  On D13 ON ! ");
+   Serial1.println("LED  On D13 ON ! ");
    }
   if (BluetoothData=='0'){// if number 0 pressed ....
   digitalWrite(ledpin,LOW);
-   Serial.println("LED  On D13 Off ! ");
+   Serial1.println("LED  On D13 Off ! ");
   }
 }
 delay(100);// prepare for next data ...

@@ -4,18 +4,20 @@
 
 I2C::I2C(){
   Wire.begin();
-  
+  this->posX=posX;
+  this->posY=posY;
+  this->startFrame=0;
   }
   
-I2C::I2C(unsigned char addressNumber){
-
-  Wire.begin(addressNumber);
+I2C::I2C(unsigned char deviceAddress){
+  
+  Wire.begin(deviceAddress);
 //  Wire.onRequest(I2C.sendXY()); //register request event from master
 //  Wire.onReceive(I2C.receiveXY()); //register whenever data is received
   this->posX=posX;
   this->posY=posY;
   this->startFrame=0;
-
+  myAddress=deviceAddress;
   
 }
 
@@ -23,7 +25,7 @@ I2C::~I2C(){
   }
 
 void I2C::receiveXY(){//master
-   Wire.requestFrom(44, 5);    // request 6 bytes from slave device #44
+   Wire.requestFrom(myAddress, 5);    // request 6 bytes from slave device #44
 
   while(Wire.available())    // slave may send less than requested
   { 

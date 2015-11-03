@@ -6,21 +6,22 @@ int BluetoothData; // the data given from Computer
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  Serial.println("Bluetooth On please press 1 or 0 blink LED ..");
+  Serial1.begin(9600);
+  Serial1.println("Bluetooth On please press 1 or 0 blink LED ..");
   pinMode(ledpin,OUTPUT);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-   if (Serial.available()){
-BluetoothData=Serial.read();
+   if (Serial1.available()){
+BluetoothData=Serial1.read();
    if(BluetoothData=='1'){   // if number 1 pressed ....
    digitalWrite(ledpin,HIGH);
-   Serial.println("LED  On D13 ON ! ");
+   Serial1.println("LED  On D13 ON ! ");
    }
   if (BluetoothData=='0'){// if number 0 pressed ....
   digitalWrite(ledpin,LOW);
-   Serial.println("LED  On D13 Off ! ");
+   Serial1.println("LED  On D13 Off ! ");
   }
 }
 delay(100);// prepare for next data ...

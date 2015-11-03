@@ -1,9 +1,12 @@
 #include <Wire.h>
 #include <arduino.h>
 
-int data[4];
-int posX;
-int posY;
+byte data[5];
+int posX1=64;//transmit
+int posY1=7;//transmit
+int posX2=1;//receive
+int posY2=2;//receive
+
 
 void setup(){
   
@@ -21,33 +24,41 @@ void loop(){
 // function that executes whenever data is received from master
 // this function is registered as an event, see setup()
 void receiveEvent(int howMany){
-  if (5 == howMany){  //are there as many bytes as expected=
+  if (5 == howMany){  //are there as many bytes as expected
   while(4 < Wire.available()){  // loop through all but the XY position
     char c = Wire.read(); // receive byte as a character
     Serial.print(c);       
     if( '@' == c) {  //if startframe is "@"
-    int i=0;
+    int i=1;// data[0] reserved for startframe
   data[i++]= Wire.read();    // receive X1byte as an integer
     data[i++]= Wire.read();    // receive X2byte as an integer
       data[i++]= Wire.read();    // receive Y1byte as an integer
         data[i++]= Wire.read();    // receive Y2byte as an integer
-  posX=(data[0] << 8) | data[1];
-  posY=(data[2] << 8) | data[3];
-  Serial.print(posX);         // print the integer
-  Serial.println(posY);         // print the integer
+  posX2=(data[1] << 8) | data[2];
+  posY2=(data[3] << 8) | data[4];
+  Serial.print(posX2);         // print the integer
+  Serial.println(posY2);         // print the integer
     }
     else Serial.println("missing startframe");
   }
     }
   else Serial.println("Error, Datengroesse anders als in ID3.3 festgelegt");
-  // BT send Code hier? 
+  // BT send Code here? 
 }
 
-void requestEvent(){ // respond with message of 6 bytes as expected by master
-// BT receive code hier?
-  Wire.write("@");//write startframe
-  Wire.write(posX >> 8); //write X1position as byte
-  Wire.write(posX & 0xFF); //write X2position as byte
-   Wire.write(posY >> 8); //write Y1position as byte
-  Wire.write(posY & 0xFF); //write Y2position as byte
+void requestEvent(){ // respond with message of 5 bytes as expected by master
+// BT receive code here?
+int i=0;
+data[i++]= '@';
+data[i++]= highByte(posX1);
+data[i++]= lowByte(posX1);
+data[i++]= highByte(posY1);
+data[i++]= lowByte(posY1);
+  Wire.write(data, 5);//necessary to write everything as data stream
+  //Wire.write(byte(posX1 >> 8)); //write X1position as byte
+//  Wire.write(byte(posX1 & 0xFF)); //write X2position as byte
+//  Wire.write(byte(posY1 >> 8)); //write Y1position as byte
+//  Wire.write(byte(posY1 & 0xFF)); //write Y2position as byte
+    Serial.print("Transmitted");
+  
 }

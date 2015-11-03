@@ -25,7 +25,7 @@ I2C::~I2C(){
   }
 
 void I2C::receiveXY(){//master
-   Wire.requestFrom(myAddress, 5);    // request 6 bytes from slave device #44
+   Wire.requestFrom(8, 6);    // request 6 bytes from slave device #8
 
   while(Wire.available())    // slave may send less than requested
   { 
@@ -38,7 +38,7 @@ void I2C::receiveXY(){//master
 }
 
 void I2C::sendXY(int posX, int posY){//master
-    Wire.beginTransmission(44);                             
+    Wire.beginTransmission(8);                             
   Wire.write('@');            
   Wire.write(posX);
   Wire.write(posY);  

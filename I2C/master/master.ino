@@ -4,10 +4,11 @@
 #define XPos 120
 #define YPos 45
 
-I2C myConnection(44); 
+I2C myConnection(8); 
 
 void setup() {
   // put your setup code here, to run once:
+  Wire.begin();
 Serial.begin(9600);
 }
 

@@ -55,10 +55,6 @@ data[i++]= lowByte(posX1);
 data[i++]= highByte(posY1);
 data[i++]= lowByte(posY1);
   Wire.write(data, 5);//necessary to write everything as data stream
-  //Wire.write(byte(posX1 >> 8)); //write X1position as byte
-//  Wire.write(byte(posX1 & 0xFF)); //write X2position as byte
-//  Wire.write(byte(posY1 >> 8)); //write Y1position as byte
-//  Wire.write(byte(posY1 & 0xFF)); //write Y2position as byte
     Serial.print("Transmitted");
   
 }

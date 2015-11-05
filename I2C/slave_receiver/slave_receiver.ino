@@ -3,11 +3,17 @@
 
 #define DEBUG // comment out for non Debug Run(no Serial.prints)
 
-byte data[5];
-int ourX=64;//transmit
-int ourY=7;//transmit
-int enemyX=1;//receive
-int enemyY=2;//receive
+byte dataPuffer[5]; // needed as a storage to merge transmittet-bytes to integer position(I2C)
+
+
+struct my_struct {
+  int ourX;//receive
+  int ourY;//receive(I2C)
+  int enemyX;//transmit
+  int enemyY;//transmit(I2C)
+}  positions ;
+
+
 
 
 void setup(){
@@ -18,10 +24,12 @@ void setup(){
    #ifdef DEBUG
   Serial.begin(9600);           // start serial for output
   #endif
+
 }
 
 void loop(){
-  
+  positions.enemyY=19;// testing
+  positions.enemyX=17;// testing
   delay(100);
 }
 
@@ -36,15 +44,15 @@ void receiveEvent(int howMany){
     #endif
     if( '@' == c) {  //if startframe is "@"
     int i=1;// data[0] reserved for startframe
-  data[i++]= Wire.read();    // receive X1byte as an integer
-    data[i++]= Wire.read();    // receive X2byte as an integer
-      data[i++]= Wire.read();    // receive Y1byte as an integer
-        data[i++]= Wire.read();    // receive Y2byte as an integer
-  enemyX=(data[1] << 8) | data[2];
-  enemyY=(data[3] << 8) | data[4];
+  dataPuffer[i++]= Wire.read();    // receive X1byte as an integer
+    dataPuffer[i++]= Wire.read();    // receive X2byte as an integer
+      dataPuffer[i++]= Wire.read();    // receive Y1byte as an integer
+        dataPuffer[i++]= Wire.read();    // receive Y2byte as an integer
+  positions.ourX=(dataPuffer[1] << 8) | dataPuffer[2];
+  positions.ourY=(dataPuffer[3] << 8) | dataPuffer[4];
   #ifdef DEBUG
-  Serial.print(enemyX);         // print the integer
-  Serial.println(enemyY);         // print the integer
+  Serial.print(positions.ourX);         // print the integer
+  Serial.println(positions.ourY);         // print the integer
   #endif
     }
     else 
@@ -63,13 +71,13 @@ void receiveEvent(int howMany){
 void requestEvent(){ // respond with message of 5 bytes as expected by master
 // BT receive code here?
 int i=0;
-data[i++]= '@';
-data[i++]= highByte(ourX);
-data[i++]= lowByte(ourX);
-data[i++]= highByte(ourY);
-data[i++]= lowByte(ourY);
-  Wire.write(data, 5);//necessary to write everything as data stream
+dataPuffer[i++]= '@';
+dataPuffer[i++]= highByte(positions.enemyX);
+dataPuffer[i++]= lowByte(positions.enemyX);
+dataPuffer[i++]= highByte(positions.enemyY);
+dataPuffer[i++]= lowByte(positions.enemyY);
+  Wire.write(dataPuffer, 5);//necessary to write everything as data stream
   #ifdef DEBUG
-    Serial.println("Transmitted");
+    Serial.println("Transmitted"); 
     #endif 
 }

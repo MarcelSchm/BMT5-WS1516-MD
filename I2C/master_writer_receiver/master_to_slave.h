@@ -4,7 +4,7 @@
 #define WIRE_H
 #endif
 
-//#define DEBUG // comment out for non Debug Run(no Serial.prints)
+#define DEBUG // comment out for non Debug Run(no Serial.prints)
 
 //A4(SDA),A5(SCL) on Arduino nano
 
